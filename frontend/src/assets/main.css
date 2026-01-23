@@ -1,0 +1,81 @@
+/* Reset & Global Variables */
+:root {
+  --sf-bg-primary: #f5f5f7;
+  --sf-bg-secondary: #ffffff;
+  --sf-text-primary: #1d1d1f;
+  --sf-text-secondary: #86868b;
+  --sf-accent: #0071e3;
+  --sf-accent-hover: #0077ed;
+  --sf-border: #d2d2d7;
+  --sf-radius: 12px;
+  --sf-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --sf-font-family: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--sf-font-family);
+  background-color: var(--sf-bg-primary);
+  color: var(--sf-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  margin-top: 0;
+}
+
+/* Element Plus Overrides for Apple Style */
+.el-button--primary {
+  background-color: var(--sf-accent) !important;
+  border-color: var(--sf-accent) !important;
+  border-radius: 980px !important; /* Pill shape */
+  font-weight: 500 !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+}
+
+.el-button--primary:hover {
+  background-color: var(--sf-accent-hover) !important;
+  transform: scale(1.02);
+}
+
+.el-card {
+  border-radius: var(--sf-radius) !important;
+  border: none !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04) !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(20px);
+}
+
+.el-table {
+  background-color: transparent !important;
+  --el-table-tr-bg-color: transparent !important;
+  --el-table-header-bg-color: transparent !important;
+}
+
+.el-table th.el-table__cell {
+  background-color: transparent !important;
+  color: var(--sf-text-secondary) !important;
+  font-weight: 500 !important;
+}
+
+.el-input__wrapper {
+  border-radius: 8px !important;
+  box-shadow: 0 0 0 1px var(--sf-border) inset !important;
+}
+
+.el-input__wrapper.is-focus {
+  box-shadow: 0 0 0 2px var(--sf-accent) inset !important;
+}
+
+/* Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}

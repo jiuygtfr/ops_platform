@@ -24,7 +24,7 @@ service.interceptors.request.use(
 // Response interceptor
 service.interceptors.response.use(
   response => {
-    return response
+    return response.data
   },
   error => {
     /*

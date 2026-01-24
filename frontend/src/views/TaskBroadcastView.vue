@@ -42,6 +42,7 @@
                           :rows="6" 
                           placeholder="#!/bin/bash&#10;echo 'Hello World'" 
                           class="code-input"
+                          spellcheck="false"
                         />
                     </el-form-item>
                     <el-form-item label="执行模式">
@@ -137,7 +138,10 @@ const submitTask = async () => {
     }
 };
 
-onMounted(loadHosts);
+onMounted(async () => {
+    await loadHosts();
+    await checkCopySource();
+});
 </script>
 
 <style scoped>
@@ -185,7 +189,16 @@ onMounted(loadHosts);
 .code-input :deep(textarea) {
     font-family: 'SF Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
     font-size: 13px;
-    background-color: #fafafa;
+    background-color: #1c1c1e;
+    color: #f5f5f7;
+    line-height: 1.5;
+    padding: 12px;
+    border: 1px solid #38383a;
+}
+
+.code-input :deep(textarea):focus {
+    background-color: #000;
+    border-color: var(--sf-accent);
 }
 
 .batch-options {

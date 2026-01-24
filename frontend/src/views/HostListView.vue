@@ -2,7 +2,7 @@
   <div class="page-container host-list">
     <div class="page-header">
       <h1 class="page-title">主机管理</h1>
-      <el-button type="primary" @click="showAddDialog = true">添加主机</el-button>
+      <el-button type="primary" plain @click="handleAdd">添加主机</el-button>
     </div>
 
     <el-card class="content-card">
@@ -14,11 +14,20 @@
         </el-table-column>
         <el-table-column prop="ip" label="IP 地址" />
         <el-table-column prop="username" label="用户" />
-        <el-table-column label="操作" width="150" align="right">
+        <el-table-column label="操作" width="100" align="right">
           <template #default="scope">
-            <el-button link type="primary" @click="openTerminal(scope.row)">
-              连接终端 >
-            </el-button>
+            <el-dropdown trigger="click">
+                <el-button link type="primary" style="color: var(--sf-text-secondary) !important;">
+                    <span style="font-size: 18px; line-height: 1;">...</span>
+                </el-button>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item @click="openTerminal(scope.row)">连接终端</el-dropdown-item>
+                        <el-dropdown-item @click="handleEdit(scope.row)">编辑</el-dropdown-item>
+                        <el-dropdown-item divided @click="handleDelete(scope.row)" style="color: #ff3b30;">删除</el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
           </template>
         </el-table-column>
       </el-table>
@@ -48,25 +57,25 @@
         </el-tabs>
     </el-dialog>
 
-    <el-dialog v-model="showAddDialog" title="添加主机" width="400px" class="apple-dialog">
-      <el-form :model="newHost" label-position="top">
+    <el-dialog v-model="showAddDialog" :title="isEdit ? '编辑主机' : '添加主机'" width="400px" class="apple-dialog">
+      <el-form :model="form" label-position="top">
         <el-form-item label="名称">
-          <el-input v-model="newHost.name" placeholder="e.g. Web Server 01" />
+          <el-input v-model="form.name" placeholder="e.g. Web Server 01" />
         </el-form-item>
         <el-form-item label="IP 地址">
-          <el-input v-model="newHost.ip" placeholder="192.168.1.1" />
+          <el-input v-model="form.ip" placeholder="192.168.1.1" />
         </el-form-item>
         <el-form-item label="用户名">
-          <el-input v-model="newHost.username" placeholder="root" />
+          <el-input v-model="form.username" placeholder="root" />
         </el-form-item>
         <el-form-item label="密码">
-            <el-input v-model="newHost.password" type="password" show-password />
+            <el-input v-model="form.password" type="password" show-password placeholder="不修改请留空" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="showAddDialog = false">取消</el-button>
-          <el-button type="primary" @click="handleAddHost">添加</el-button>
+          <el-button type="primary" @click="handleSubmit">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -74,17 +83,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
-import { getHosts, createHost, type Host } from '@/api/hosts'
+import { ref, onMounted, reactive } from 'vue'
+import { getHosts, createHost, updateHost, deleteHost, type Host } from '@/api/hosts'
 import TerminalPane from '@/components/TerminalPane.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const hosts = ref<Host[]>([])
 const showAddDialog = ref(false)
 const terminalVisible = ref(false)
 const activeSessionId = ref('')
 const sessions = ref<{sessionId: string, hostId: number, title: string}[]>([])
+const isEdit = ref(false)
+const currentId = ref<number | null>(null)
 
-const newHost = ref({
+const form = reactive({
   name: '',
   ip: '',
   username: 'root',
@@ -97,10 +109,55 @@ const loadHosts = async () => {
   hosts.value = await getHosts()
 }
 
-const handleAddHost = async () => {
-  await createHost(newHost.value)
-  showAddDialog.value = false
-  loadHosts()
+const handleAdd = () => {
+    isEdit.value = false
+    currentId.value = null
+    form.name = ''
+    form.ip = ''
+    form.username = 'root'
+    form.password = ''
+    showAddDialog.value = true
+}
+
+const handleEdit = (row: Host) => {
+    isEdit.value = true
+    currentId.value = row.id
+    form.name = row.name
+    form.ip = row.ip
+    form.username = row.username
+    form.password = '' // Don't show password
+    showAddDialog.value = true
+}
+
+const handleDelete = async (row: Host) => {
+    try {
+        await ElMessageBox.confirm('确定要删除该主机吗？', '提示', {
+            type: 'warning'
+        })
+        await deleteHost(row.id)
+        ElMessage.success('删除成功')
+        loadHosts()
+    } catch (e) {
+        // cancel
+    }
+}
+
+const handleSubmit = async () => {
+  try {
+      if (isEdit.value && currentId.value) {
+          const data = { ...form }
+          if (!data.password) delete (data as any).password
+          await updateHost(currentId.value, data)
+          ElMessage.success('更新成功')
+      } else {
+          await createHost(form)
+          ElMessage.success('添加成功')
+      }
+      showAddDialog.value = false
+      loadHosts()
+  } catch (e) {
+      ElMessage.error('操作失败')
+  }
 }
 
 const openTerminal = (host: Host) => {

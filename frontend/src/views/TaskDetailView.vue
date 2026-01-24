@@ -9,6 +9,7 @@
             <div class="task-meta" v-if="task">
                 <span class="mode-badge">{{ task.mode === 'batch' ? '分批执行' : '广播执行' }}</span>
                 <span class="host-count">{{ hostsStatus.length }} 台主机</span>
+                <span class="host-count" v-if="task.created_at">执行时间: {{ new Date(task.created_at).toLocaleString() }}</span>
             </div>
         </div>
     </div>

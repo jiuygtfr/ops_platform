@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HostListView from './views/HostListView.vue'
 import TaskBroadcastView from './views/TaskBroadcastView.vue'
 import TaskDetailView from './views/TaskDetailView.vue'
+import TaskListView from './views/TaskListView.vue'
+import EnvConfigView from './views/EnvConfigView.vue'
 import LoginView from './views/LoginView.vue'
 import UserListView from './views/UserListView.vue'
 
@@ -20,6 +22,11 @@ const routes = [
   {
     path: '/tasks',
     name: 'Tasks',
+    component: TaskListView
+  },
+  {
+    path: '/tasks/new',
+    name: 'TaskCreate',
     component: TaskBroadcastView
   },
   {
@@ -27,6 +34,11 @@ const routes = [
     name: 'TaskDetail',
     component: TaskDetailView,
     props: true
+  },
+  {
+    path: '/env-configs',
+    name: 'EnvConfigs',
+    component: EnvConfigView
   },
   {
       path: '/users',

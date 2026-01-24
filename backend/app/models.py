@@ -70,3 +70,16 @@ class TaskHost(Base):
     end_time = Column(DateTime, nullable=True)
     
     task = relationship("Task", back_populates="task_hosts")
+
+class EnvConfigType(str, enum.Enum):
+    account = "account"
+    topology = "topology"
+
+class EnvConfig(Base):
+    __tablename__ = "env_configs"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(100))
+    type = Column(Enum(EnvConfigType))
+    content = Column(Text) # YAML content
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)

@@ -7,17 +7,14 @@ export interface User {
     is_admin: boolean;
 }
 
-export const getUsers = async () => {
-    const res = await request.get<User[]>('/users/')
-    return res.data
+export const getUsers = () => {
+    return request.get<any, User[]>('/users/')
 }
 
-export const createUser = async (data: any) => {
-    const res = await request.post<User>('/users/', data)
-    return res.data
+export const createUser = (data: any) => {
+    return request.post<any, User>('/users/', data)
 }
 
-export const deleteUser = async (id: number) => {
-    const res = await request.delete(`/users/${id}`)
-    return res.data
+export const deleteUser = (id: number) => {
+    return request.delete<any, any>(`/users/${id}`)
 }

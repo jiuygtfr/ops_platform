@@ -24,6 +24,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   margin-top: 0;
+  color: var(--sf-text-primary);
 }
 
 /* Element Plus Overrides for Apple Style */
@@ -33,6 +34,8 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 980px !important; /* Pill shape */
   font-weight: 500 !important;
   transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+  padding: 8px 20px !important;
+  color: #fff !important;
 }
 
 .el-button--primary:hover {
@@ -40,33 +43,94 @@ h1, h2, h3, h4, h5, h6 {
   transform: scale(1.02);
 }
 
+.el-button--primary.is-plain {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+    color: var(--sf-accent) !important;
+    backdrop-filter: blur(10px);
+}
+
+.el-button--primary.is-plain:hover {
+    background-color: #fff !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08) !important;
+}
+
+.el-button--danger {
+    background-color: #ff3b30 !important;
+    border-color: #ff3b30 !important;
+    border-radius: 980px !important;
+    color: #fff !important;
+}
+
+.el-button.is-link {
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+    color: var(--sf-accent) !important;
+}
+
+.el-button.is-link:hover {
+    background-color: rgba(0, 113, 227, 0.1) !important;
+}
+
 .el-card {
-  border-radius: var(--sf-radius) !important;
+  border-radius: 18px !important;
   border: none !important;
   box-shadow: 0 4px 24px rgba(0,0,0,0.04) !important;
   background-color: rgba(255, 255, 255, 0.8) !important;
   backdrop-filter: blur(20px);
+  color: var(--sf-text-primary) !important;
 }
 
 .el-table {
   background-color: transparent !important;
+  color: var(--sf-text-primary) !important;
   --el-table-tr-bg-color: transparent !important;
   --el-table-header-bg-color: transparent !important;
+  --el-table-row-hover-bg-color: rgba(0, 0, 0, 0.03) !important;
+  --el-table-text-color: var(--sf-text-primary) !important;
+  --el-table-header-text-color: var(--sf-text-secondary) !important;
 }
 
 .el-table th.el-table__cell {
   background-color: transparent !important;
   color: var(--sf-text-secondary) !important;
   font-weight: 500 !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+  padding: 12px 0 !important;
+}
+
+.el-table td.el-table__cell {
+    border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+    padding: 16px 0 !important;
 }
 
 .el-input__wrapper {
   border-radius: 8px !important;
   box-shadow: 0 0 0 1px var(--sf-border) inset !important;
+  padding: 4px 12px !important;
+  background-color: #fff !important;
+}
+
+.el-input__inner {
+    color: var(--sf-text-primary) !important;
 }
 
 .el-input__wrapper.is-focus {
   box-shadow: 0 0 0 2px var(--sf-accent) inset !important;
+  background-color: #fff !important;
+}
+
+.el-dialog {
+    background-color: #fff !important;
+    border-radius: 18px !important;
+}
+
+.el-dialog__title {
+    color: var(--sf-text-primary) !important;
+}
+
+.el-form-item__label {
+    color: var(--sf-text-primary) !important;
 }
 
 /* Transitions */

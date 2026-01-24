@@ -9,7 +9,8 @@
         </div>
         <nav class="nav-links">
           <router-link to="/" class="nav-item" active-class="active">主机管理</router-link>
-          <router-link to="/tasks" class="nav-item" active-class="active">任务下发</router-link>
+          <router-link to="/tasks" class="nav-item" active-class="active">任务管理</router-link>
+          <router-link to="/env-configs" class="nav-item" active-class="active">配置管理</router-link>
           <router-link to="/users" class="nav-item" active-class="active" v-if="isAdmin">用户管理</router-link>
         </nav>
         <div class="user-actions">

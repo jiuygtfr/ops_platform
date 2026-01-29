@@ -32,20 +32,22 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const router = useRouter()
+// const router = useRouter()
 
 const isLoginPage = computed(() => route.path === '/login')
 const isAdmin = computed(() => localStorage.getItem('is_admin') === '1')
 
+/*
 const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('username')
     localStorage.removeItem('is_admin')
     router.push('/login')
 }
+*/
 </script>
 
 <style src="@/assets/main.css"></style>

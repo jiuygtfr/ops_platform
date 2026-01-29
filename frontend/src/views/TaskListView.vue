@@ -65,7 +65,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { getTasks, deleteTask, type Task } from '@/api/tasks'
+import { getTasks, deleteTask, runTaskAgain, type Task } from '@/api/tasks'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 const tasks = ref<Task[]>([])
@@ -78,6 +78,16 @@ const loadTasks = async () => {
   } finally {
     loading.value = false
   }
+}
+
+const handleRun = async (row: Task) => {
+    try {
+        await runTaskAgain(row.id)
+        ElMessage.success('任务已重新运行')
+        loadTasks()
+    } catch (e) {
+        ElMessage.error('运行失败')
+    }
 }
 
 const handleDelete = async (row: Task) => {
